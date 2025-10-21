@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     public string CheckMapType(MapTypes types)
     {
         mapTypeString = types.ToString();
-        Debug.Log("TIPE MAP SAAT INI ADALAH: " + mapTypeString);
+        //Debug.Log("TIPE MAP SAAT INI ADALAH: " + mapTypeString);
         if (selectedCharacterData != null)
         {
             IsSpecialityMatchingMap();
@@ -101,28 +101,18 @@ public class GameManager : MonoBehaviour
 
     private void FindUIElements()
     {
-        // 1. Coba temukan objek TextMeshProUGUI di Scene saat ini
         TextMeshProUGUI resultText = FindAnyObjectByType<TextMeshProUGUI>(FindObjectsInactive.Include);
 
         if (resultText != null)
         {
-            // 2. Jika ditemukan, simpan referensi
             winLoseText = resultText;
-            winLoseText.gameObject.SetActive(false); // Sembunyikan saat start
-            Debug.Log("[GameManager] Berhasil menemukan teks Win/Lose di Scene Balapan.");
-        }
-        else
-        {
-            Debug.LogError("[GameManager] GAGAL menemukan TextMeshProUGUI (Win/Lose Text) di Scene Balapan.");
+            winLoseText.gameObject.SetActive(false);
         }
     }
 
     public void winLoseCondition(bool finalCondition)
     {
-        // Cek apakah game sudah selesai/menang/kalah sebelumnya
         if (winGame) return;
-
-        // Set status game sudah berakhir
         winGame = true;
 
         if (finalCondition)

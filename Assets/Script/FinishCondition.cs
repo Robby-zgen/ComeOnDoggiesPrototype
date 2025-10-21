@@ -6,19 +6,11 @@ public class FinishCondition : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Player adalah yang pertama menyentuh garis finish
-            GameManager.instance.winLoseCondition(true); // Player Win
-
-            // Opsional: Hentikan pergerakan Player dan NPC lain
-            // ...
+            GameManager.instance.winLoseCondition(true); 
         }
-        else if (collision.gameObject.CompareTag("Npc")) // Asumsi NPC memiliki tag "npc"
+        else if (collision.gameObject.CompareTag("Npc")) 
         {
-            // NPC adalah yang pertama menyentuh garis finish sebelum Player
-            GameManager.instance.winLoseCondition(false); // Player Lose
-
-            // Opsional: Hentikan pergerakan Player dan NPC lain
-            // ...
+            GameManager.instance.winLoseCondition(false);
         }
     }
 }

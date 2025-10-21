@@ -33,8 +33,7 @@ public class CharacterSpawner : MonoBehaviour
             Debug.LogError("[CS] Setup Error: Data karakter tidak dimuat dari GameManager. (Array data kosong).");
             return;
         }
-
-        // Fleksibilitas: Hitung batas spawn berdasarkan yang paling sedikit
+        
         int spawnCount = Mathf.Min(allData.Length, spawnPoints.Length);
 
         if (spawnCount < allData.Length)
@@ -42,7 +41,6 @@ public class CharacterSpawner : MonoBehaviour
             Debug.LogWarning($"[CS] Peringatan: Hanya {spawnCount} karakter yang di-spawn karena Spawn Points tidak cukup.");
         }
 
-        // Loop untuk men-spawn semua karakter yang datanya tersedia
         for (int i = 0; i < spawnCount; i++)
         {
             DataChar charData = allData[i];
@@ -56,13 +54,11 @@ public class CharacterSpawner : MonoBehaviour
             Vector3 targetScale = new Vector3(0.2f, 0.2f, 0.2f);// sesuaikan ukuran sprite karakter
             charInstance.transform.localScale = targetScale;
 
-            // 2. Terapkan Visual
             ApplyVisuals(charInstance, charData);
 
-            // 3. Terapkan Logika Player vs. NPC
             if (i == selectedIndex)
             {
-                // === PLAYER LOGIC ===
+                //player
                 SetMovementScriptState(charInstance, PlayerScript, true);
                 MonoBehaviour npcComponent = charInstance.GetComponent(NPCScript) as MonoBehaviour;
                 if (npcComponent != null)
@@ -79,7 +75,7 @@ public class CharacterSpawner : MonoBehaviour
             }
             else
             {
-                // === NPC LOGIC ===
+                //npc
                 MonoBehaviour PlayerComponent = charInstance.GetComponent(PlayerScript) as MonoBehaviour;
                 if (PlayerComponent != null)
                 {
