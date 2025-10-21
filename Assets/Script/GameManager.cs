@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,7 +10,9 @@ public class GameManager : MonoBehaviour
     public int selectedCharacterIndex = -1;
     public DataChar selectedCharacterData;// nyimpen data karakter player yang dimainkan
 
+    public TextMeshProUGUI winLoseText;
     public bool isSpecialityMatchingMap;
+    public bool winGame;
     private string mapTypeString;
 
     private void Awake()
@@ -22,8 +26,16 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    
+
+    private void OnDestroy()
+    {
+        // Hapus event listener saat objek dihancurkan
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     public void SetSelectedCharacter(int selectedIndex, DataChar[] allData)
     {
         selectedCharacterIndex = selectedIndex;
@@ -32,7 +44,6 @@ public class GameManager : MonoBehaviour
         if (selectedIndex >= 0 && selectedIndex < allData.Length)
         {
             selectedCharacterData = allData[selectedIndex];
-            //Debug.Log("Speciality karakter yang dipilih: " + selectedCharacterData.speciality);
         }
         else
         {
@@ -77,5 +88,52 @@ public class GameManager : MonoBehaviour
 
         return isSpecialityMatchingMap;
 
+    }
+
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "InGame")
+        {
+            FindUIElements();
+        }
+    }
+
+    private void FindUIElements()
+    {
+        // 1. Coba temukan objek TextMeshProUGUI di Scene saat ini
+        TextMeshProUGUI resultText = FindAnyObjectByType<TextMeshProUGUI>(FindObjectsInactive.Include);
+
+        if (resultText != null)
+        {
+            // 2. Jika ditemukan, simpan referensi
+            winLoseText = resultText;
+            winLoseText.gameObject.SetActive(false); // Sembunyikan saat start
+            Debug.Log("[GameManager] Berhasil menemukan teks Win/Lose di Scene Balapan.");
+        }
+        else
+        {
+            Debug.LogError("[GameManager] GAGAL menemukan TextMeshProUGUI (Win/Lose Text) di Scene Balapan.");
+        }
+    }
+
+    public void winLoseCondition(bool finalCondition)
+    {
+        // Cek apakah game sudah selesai/menang/kalah sebelumnya
+        if (winGame) return;
+
+        // Set status game sudah berakhir
+        winGame = true;
+
+        if (finalCondition)
+        {
+            winLoseText.text = "You Win";
+            winLoseText.gameObject.SetActive(true);
+        }
+        else
+        {
+            winLoseText.text = "You Lose";
+            winLoseText.gameObject.SetActive(true);
+        }
     }
 }
