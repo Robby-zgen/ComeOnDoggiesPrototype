@@ -22,9 +22,13 @@ public class NPC : MonoBehaviour
     {
         if(currentSpeed < npc.baseNormalSpeed)
         {
-            currentSpeed += npc.accelerationRate;
+            currentSpeed += npc.accelerationRate * Time.deltaTime;
         }
         transform.position += Vector3.right * currentSpeed  * Time.deltaTime;
+        if(currentSpeed < 0)
+        {
+            currentSpeed = 0;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,12 +39,12 @@ public class NPC : MonoBehaviour
             if (Random.value < 0.5f)
             {
                 speedChangeAmount = Random.Range(npc.minRandomIncrease, npc.maxRandomIncrease);
-                currentSpeed += speedChangeAmount;
+                currentSpeed += speedChangeAmount * Time.deltaTime;
             }
             else
             {
                 speedChangeAmount = Random.Range(npc.minRandomDecrease, npc.maxRandomDecrease);
-                currentSpeed -= speedChangeAmount;
+                currentSpeed -= speedChangeAmount * Time.deltaTime;
             }            
         }
 

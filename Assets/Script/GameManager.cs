@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public DataChar selectedCharacterData;// nyimpen data karakter player yang dimainkan
 
     public TextMeshProUGUI winLoseText;
+    public GameObject panelWinLose;
+
     public bool isSpecialityMatchingMap;
     public bool winGame;
     private string mapTypeString;
@@ -95,19 +97,41 @@ public class GameManager : MonoBehaviour
     {
         if (scene.name == "InGame")
         {
+            Time.timeScale = 1f;
             FindUIElements();
         }
     }
 
     private void FindUIElements()
     {
-        TextMeshProUGUI resultText = FindAnyObjectByType<TextMeshProUGUI>(FindObjectsInactive.Include);
+        GameObject panelObj = GameObject.Find("WinLosePanel");
 
-        if (resultText != null)
+        if (panelObj != null)
         {
-            winLoseText = resultText;
-            winLoseText.gameObject.SetActive(false);
+            panelWinLose = panelObj;
+
+            // --- Langkah 2: Cari Text Sebagai Anak dari Panel ---
+            // Mencari component TextMeshProUGUI HANYA di dalam objek panelWinLose (dan anak-anaknya)
+            TextMeshProUGUI resultText = panelWinLose.GetComponentInChildren<TextMeshProUGUI>(true);
+
+            if (resultText != null)
+            {
+                winLoseText = resultText;
+
+                // Lakukan inisialisasi: Sembunyikan panel induk
+                panelWinLose.SetActive(false);
+                Debug.Log("[GameManager] Berhasil mereferensikan UI Win/Lose.");
+                return; // Keluar dari fungsi jika berhasil
+            }
         }
+
+        // --- Langkah 3: Error Handling Jika Gagal ---
+        // Jika kode mencapai sini, berarti ada yang gagal ditemukan.
+        Debug.LogError("[GameManager] GAGAL menemukan WinLosePanel atau final Text di Scene InGame. Pastikan nama GameObject sudah benar.");
+
+        // Set referensi ke null jika gagal untuk safety, meskipun sudah null secara default
+        panelWinLose = null;
+        winLoseText = null;
     }
 
     public void winLoseCondition(bool finalCondition)
@@ -117,13 +141,15 @@ public class GameManager : MonoBehaviour
 
         if (finalCondition)
         {
+            Time.timeScale = 0f;
             winLoseText.text = "You Win";
-            winLoseText.gameObject.SetActive(true);
+            panelWinLose.gameObject.SetActive(true);
         }
         else
         {
+            Time.timeScale = 0f;
             winLoseText.text = "You Lose";
-            winLoseText.gameObject.SetActive(true);
+            panelWinLose.gameObject.SetActive(true);
         }
     }
 }
