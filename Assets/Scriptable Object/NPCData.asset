@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d7ba77cd075d041b89dac731efc429, type: 3}
   m_Name: NPCData
   m_EditorClassIdentifier: Assembly-CSharp::NPCData
-  accelerationRate: 0.001
-  baseNormalSpeed: 5
+  accelerationRate: 0.1
+  baseNormalSpeed: 1
   minRandomIncrease: 1
   maxRandomIncrease: 2
   minRandomDecrease: 1

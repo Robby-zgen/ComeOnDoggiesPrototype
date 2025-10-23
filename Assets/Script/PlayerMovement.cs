@@ -1,80 +1,87 @@
-using UnityEngine;
-using TMPro;
-using System.Collections;
+    using UnityEngine;
+    using TMPro;
+    using System.Collections;
+    using System.Threading;
 
 
-public class PlayerMovement : MonoBehaviour
-{
-    public PlayerData playerData;
-    public float currentSpeed;
-    private float initialSpeed;
-    public bool firstTap;
-
-    private DataChar dataChar;
-
-    public QTETrigger trigger;
-
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class PlayerMovement : MonoBehaviour
     {
-        dataChar = GameManager.instance.selectedCharacterData;
-        CheckCondition();
+        public PlayerData playerData;
+        public float currentSpeed;
+        private float initialSpeed;
 
-        currentSpeed = 0f;
-    }
+        public bool firstTap;
+        public bool onObstacle;
 
-    // Update is called once per frame
-    void Update()
-    {
-        transform.position += Vector3.right * currentSpeed * Time.deltaTime;
-        if (Input.GetMouseButtonDown(0))
+        private DataChar dataChar;
+
+        public QTETrigger trigger;
+        public float lastTap;
+        private float idleTimeThreshold = 0.5f;
+
+
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        void Start()
         {
-            GainBoost();
+            dataChar = GameManager.instance.selectedCharacterData;
+            CheckCondition();
+
+            currentSpeed = 0f;
         }
 
-        if(currentSpeed >= 0.01f)
+        // Update is called once per frame
+        void Update()
         {
-            currentSpeed -= Time.deltaTime * playerData.speedDeceleration;
-            if(currentSpeed < 0f)
+            transform.position += Vector3.right * currentSpeed * Time.deltaTime;
+            if (!onObstacle)
             {
-                currentSpeed = 0f;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    lastTap = Time.time;
+                    GainBoost();
+                }
+                if (Time.time > lastTap + idleTimeThreshold)
+                {
+                    if (currentSpeed > 0f)
+                    {
+                        currentSpeed = 0f;
+                    }
+                }
             }
         }
-    }
 
-    private void GainBoost()
-    {
-        if (!firstTap)
+        private void GainBoost()
         {
-            currentSpeed = initialSpeed;
-            firstTap = true;
+            if (!firstTap)
+            {
+                currentSpeed = initialSpeed;
+                firstTap = true;
+            }
+            else
+            {
+                currentSpeed += playerData.tapSpeedGain;
+            }
         }
-        else
+
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            currentSpeed += playerData.tapSpeedGain;
-        }
-    }
+            if (collision.gameObject.CompareTag("QTE"))
+            {
+                onObstacle = true;
+                trigger.TriggerQTE();
+            }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("QTE"))
+        }
+
+        private void CheckCondition()
         {
-            trigger.TriggerQTE();
-            Debug.Log("Trigger QTE");
+            if (dataChar.condition == Condition.Happy)
+                initialSpeed = playerData.happySpeed;
+
+            else if (dataChar.condition == Condition.Normal)
+                initialSpeed = playerData.normalSpeed;
+
+            else if (dataChar.condition == Condition.Exhaust)
+                initialSpeed = playerData.exhaustSpeed;
         }
     }
-
-    private void CheckCondition()
-    {
-        if (dataChar.condition == Condition.Happy)
-            initialSpeed = playerData.happySpeed;
-
-        else if (dataChar.condition == Condition.Normal)
-            initialSpeed = playerData.normalSpeed;
-
-        else if (dataChar.condition == Condition.Exhaust)
-            initialSpeed = playerData.exhaustSpeed;
-    }
-}

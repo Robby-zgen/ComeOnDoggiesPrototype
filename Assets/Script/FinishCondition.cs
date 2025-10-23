@@ -6,7 +6,7 @@ public class FinishCondition : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            GameManager.instance.winLoseCondition(true); 
+            GameManager.instance.winLoseCondition(true);
         }
         else if (collision.gameObject.CompareTag("Npc")) 
         {

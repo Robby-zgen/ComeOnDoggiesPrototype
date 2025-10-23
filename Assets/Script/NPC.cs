@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class NPC : MonoBehaviour
 {
@@ -9,18 +8,34 @@ public class NPC : MonoBehaviour
 
     private float speedChangeAmount;
 
+    private float targetSpeed;
+    private bool isAdjustingSpeed = false;
+    public float adjustmentRate = 2f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //buat kecepatan random diawal
         speedChangeAmount = Random.Range(npc.initialRandomSpeedMin, npc.initialRandomSpeedMax);
         currentSpeed += speedChangeAmount;
+
+        targetSpeed = currentSpeed;
+
     }
     
     // Update is called once per frame
     void Update()
     {
-        if(currentSpeed < npc.baseNormalSpeed)
+        if (isAdjustingSpeed)
+        {
+            currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, adjustmentRate * Time.deltaTime);
+
+            if(currentSpeed == targetSpeed)
+            {
+                isAdjustingSpeed=false;
+            }
+        }
+        else
         {
             currentSpeed += npc.accelerationRate * Time.deltaTime;
         }
@@ -33,19 +48,26 @@ public class NPC : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (collision.gameObject.CompareTag("Trigger"))
         {
+            float randomSpeedChange;
+            
             if (Random.value < 0.5f)
             {
-                speedChangeAmount = Random.Range(npc.minRandomIncrease, npc.maxRandomIncrease);
-                currentSpeed += speedChangeAmount * Time.deltaTime;
+                randomSpeedChange = Random.Range(npc.minRandomIncrease, npc.maxRandomIncrease);
+                
             }
             else
             {
-                speedChangeAmount = Random.Range(npc.minRandomDecrease, npc.maxRandomDecrease);
-                currentSpeed -= speedChangeAmount * Time.deltaTime;
-            }            
+                randomSpeedChange = Random.Range(npc.minRandomDecrease, npc.maxRandomDecrease);
+            }
+
+            targetSpeed = currentSpeed + randomSpeedChange;
+
+            targetSpeed = Mathf.Clamp(targetSpeed, 0f, npc.baseNormalSpeed * 3f); // 1.5x buffer
+
+            // 3. Aktifkan Flag Penyesuaian Linear
+            isAdjustingSpeed = true;
         }
 
         if (collision.gameObject.CompareTag("QTE"))

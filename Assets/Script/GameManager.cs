@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Drawing;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -10,11 +11,15 @@ public class GameManager : MonoBehaviour
     public int selectedCharacterIndex = -1;
     public DataChar selectedCharacterData;// nyimpen data karakter player yang dimainkan
 
+    public int points;
+    public TextMeshProUGUI pointText;
+
     public TextMeshProUGUI winLoseText;
     public GameObject panelWinLose;
 
     public bool isSpecialityMatchingMap;
     public bool winGame;
+
     private string mapTypeString;
 
     private void Awake()
@@ -28,13 +33,30 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        points = PlayerPrefs.GetInt("points");
         SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            AddPoints(100);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            RemovePoints();
+        }
+
+        if (pointText != null)
+        {
+            pointText.text = points.ToString();
+        }
     }
 
     private void OnDestroy()
     {
-        // Hapus event listener saat objek dihancurkan
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -56,7 +78,6 @@ public class GameManager : MonoBehaviour
     public string CheckMapType(MapTypes types)
     {
         mapTypeString = types.ToString();
-        //Debug.Log("TIPE MAP SAAT INI ADALAH: " + mapTypeString);
         if (selectedCharacterData != null)
         {
             IsSpecialityMatchingMap();
@@ -92,13 +113,38 @@ public class GameManager : MonoBehaviour
 
     }
 
-
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        var audio = AudioManager.AudioInstance;
         if (scene.name == "InGame")
         {
+            audio.bgmPlay(audio.IngameBgm);
             Time.timeScale = 1f;
+            winGame = false;
             FindUIElements();
+        }
+
+        if (scene.name == "MainMenu")
+        {
+            audio.bgmPlay(audio.mainmenuBgm);
+            Debug.Log("MainMenu");
+
+            pointText = FindAnyObjectByType<TextMeshProUGUI>();
+            GameObject pointObj = GameObject.Find("Point Text");
+
+            if (pointObj != null)
+            {
+                pointText = pointObj.GetComponent<TextMeshProUGUI>();
+            }
+
+            if (pointText != null)
+            {
+                // Langsung update Text dengan poin yang sudah dimuat dari PlayerPrefs
+                pointText.text ="Points: " + points.ToString();
+                Debug.Log("[GM] PointText di MainMenu berhasil ditemukan dan diupdate.");
+            }
+
+
         }
     }
 
@@ -109,27 +155,16 @@ public class GameManager : MonoBehaviour
         if (panelObj != null)
         {
             panelWinLose = panelObj;
-
-            // --- Langkah 2: Cari Text Sebagai Anak dari Panel ---
-            // Mencari component TextMeshProUGUI HANYA di dalam objek panelWinLose (dan anak-anaknya)
             TextMeshProUGUI resultText = panelWinLose.GetComponentInChildren<TextMeshProUGUI>(true);
 
             if (resultText != null)
             {
                 winLoseText = resultText;
-
-                // Lakukan inisialisasi: Sembunyikan panel induk
                 panelWinLose.SetActive(false);
-                Debug.Log("[GameManager] Berhasil mereferensikan UI Win/Lose.");
-                return; // Keluar dari fungsi jika berhasil
+                return;
             }
         }
-
-        // --- Langkah 3: Error Handling Jika Gagal ---
-        // Jika kode mencapai sini, berarti ada yang gagal ditemukan.
-        Debug.LogError("[GameManager] GAGAL menemukan WinLosePanel atau final Text di Scene InGame. Pastikan nama GameObject sudah benar.");
-
-        // Set referensi ke null jika gagal untuk safety, meskipun sudah null secara default
+        if (pointText = null) return;
         panelWinLose = null;
         winLoseText = null;
     }
@@ -138,18 +173,36 @@ public class GameManager : MonoBehaviour
     {
         if (winGame) return;
         winGame = true;
-
+        var audio = AudioManager.AudioInstance;
         if (finalCondition)
         {
             Time.timeScale = 0f;
             winLoseText.text = "You Win";
-            panelWinLose.gameObject.SetActive(true);
+            AddPoints(100);
+            panelWinLose.SetActive(true);
+            audio.sfxPlay(audio.winSfx);
         }
         else
         {
             Time.timeScale = 0f;
             winLoseText.text = "You Lose";
-            panelWinLose.gameObject.SetActive(true);
+            AddPoints(50);
+            panelWinLose.SetActive(true);
         }
+        audio.bgmSource.Stop();
+    }
+
+    public void AddPoints(int point)
+    {
+        points += point;
+        PlayerPrefs.SetInt("points", point);
+        PlayerPrefs.Save();
+    }
+
+    public void RemovePoints()
+    {
+        points = 0;
+        PlayerPrefs.SetInt("points", 0);
+        PlayerPrefs.Save();
     }
 }

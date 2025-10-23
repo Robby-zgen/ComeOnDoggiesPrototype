@@ -61,18 +61,17 @@ public class ButtonQTE : MonoBehaviour
         if (sameCondition)
         {
             shrinkDuration = qte.slowDuration;
-            Debug.Log("Karena sama jadi pelan " + shrinkDuration + " Detik");
         }
         else
         {
             shrinkDuration = qte.fastDuration;
-            Debug.Log("Karena beda jadi cepat" + shrinkDuration + " Detik");
         }
     }
 
     private void EndQTE(bool success)
     {
         isActive = false;
+        // var audio = AudioManager.AudioInstance;
         if (success)
         {
             // Kalau sukses tambah kecepatan pemain
@@ -86,7 +85,7 @@ public class ButtonQTE : MonoBehaviour
             player.currentSpeed -= player.playerData.qteFailurePenalty;
             Debug.Log("MISSED");
         }
-
+        player.onObstacle = false;
         gameObject.SetActive(false);
         outerCircle.gameObject.SetActive(false);
     }

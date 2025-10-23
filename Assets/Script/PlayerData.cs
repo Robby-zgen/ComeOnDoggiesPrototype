@@ -5,7 +5,7 @@ public class PlayerData : ScriptableObject
 {
     [Header("---Base Speed & Control---")]
     public float tapSpeedGain;
-    public float speedDeceleration;
+    public float maxSpeed;
 
     [Header("---Character Condition Modifiers (Initial Tap---")]
     public float happySpeed;
