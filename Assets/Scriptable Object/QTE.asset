@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c431fb16d76bfe4d959dfb1e27cd05b, type: 3}
   m_Name: QTE
   m_EditorClassIdentifier: Assembly-CSharp::QTE
-  fastDuration: 4
-  slowDuration: 6
+  fastDuration: 1
+  slowDuration: 2
