@@ -16,9 +16,12 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI winLoseText;
     public GameObject panelWinLose;
+    public GameObject panelTutorial;
 
     public bool isSpecialityMatchingMap;
     public bool winGame;
+    public bool hasPlayedBefore;
+    public bool startPlay;
 
     private string mapTypeString;
 
@@ -33,7 +36,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        points = PlayerPrefs.GetInt("points");
+        points = PlayerPrefs.GetInt("points", 0);
+        hasPlayedBefore = PlayerPrefs.GetInt("HasPlayedBefore", 0) == 1;
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -48,11 +52,13 @@ public class GameManager : MonoBehaviour
         {
             RemovePoints();
         }
-
-        if (pointText != null)
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            pointText.text = points.ToString();
+            PlayerPrefs.SetInt("HasPlayedBefore", 0);
+            hasPlayedBefore = false;    
+            Debug.Log("Reset");
         }
+
     }
 
     private void OnDestroy()
@@ -116,18 +122,10 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         var audio = AudioManager.AudioInstance;
-        if (scene.name == "InGame")
-        {
-            audio.bgmPlay(audio.IngameBgm);
-            Time.timeScale = 1f;
-            winGame = false;
-            FindUIElements();
-        }
 
         if (scene.name == "MainMenu")
         {
             audio.bgmPlay(audio.mainmenuBgm);
-            Debug.Log("MainMenu");
 
             pointText = FindAnyObjectByType<TextMeshProUGUI>();
             GameObject pointObj = GameObject.Find("Point Text");
@@ -139,13 +137,37 @@ public class GameManager : MonoBehaviour
 
             if (pointText != null)
             {
-                // Langsung update Text dengan poin yang sudah dimuat dari PlayerPrefs
-                pointText.text ="Points: " + points.ToString();
+                pointText.text = "Points: " + points.ToString();
                 Debug.Log("[GM] PointText di MainMenu berhasil ditemukan dan diupdate.");
             }
-
-
         }
+
+        if (scene.name == "Select Chara")
+        {
+            panelTutorial = GameObject.Find("panel tutorial");
+            panelTutorial.SetActive(false);
+            if (!hasPlayedBefore)
+            {
+                if (panelTutorial != null)
+                    panelTutorial.SetActive(true);
+
+                hasPlayedBefore = true;
+                PlayerPrefs.SetInt("HasPlayedBefore", 1);
+                PlayerPrefs.Save();
+            }
+        }
+
+        if (scene.name == "InGame")
+        {
+            audio.bgmPlay(audio.IngameBgm);
+            winGame = false;
+            FindUIElements();
+            if (startPlay)
+            {
+                Time.timeScale = 1f;
+            }
+            
+        }   
     }
 
     private void FindUIElements()
@@ -195,8 +217,13 @@ public class GameManager : MonoBehaviour
     public void AddPoints(int point)
     {
         points += point;
-        PlayerPrefs.SetInt("points", point);
+        PlayerPrefs.SetInt("points", points);
         PlayerPrefs.Save();
+
+        if (pointText != null)
+        {
+            pointText.text = "Points: " + points.ToString();
+        }
     }
 
     public void RemovePoints()
@@ -204,5 +231,11 @@ public class GameManager : MonoBehaviour
         points = 0;
         PlayerPrefs.SetInt("points", 0);
         PlayerPrefs.Save();
+
+        if (pointText != null)
+        {
+            pointText.text = "Points: " + points.ToString();
+        }
     }
+
 }

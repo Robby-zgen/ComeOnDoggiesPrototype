@@ -33,21 +33,26 @@
         void Update()
         {
             transform.position += Vector3.right * currentSpeed * Time.deltaTime;
-            if (!onObstacle)
+
+            if (GameManager.instance.startPlay)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (!onObstacle)// jika lagi tidak di obstacle
                 {
-                    lastTap = Time.time;
-                    GainBoost();
-                }
-                if (Time.time > lastTap + idleTimeThreshold)
-                {
-                    if (currentSpeed > 0f)
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        currentSpeed = 0f;
+                        lastTap = Time.time;
+                        GainBoost();
+                    }
+                    if (Time.time > lastTap + idleTimeThreshold)
+                    {
+                        if (currentSpeed > 0f)
+                        {
+                            currentSpeed = 0f;
+                        }
                     }
                 }
             }
+            
         }
 
         private void GainBoost()
