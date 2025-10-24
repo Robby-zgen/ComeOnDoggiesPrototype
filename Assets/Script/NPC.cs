@@ -26,24 +26,28 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isAdjustingSpeed)
+        if (GameManager.instance.startPlay)
         {
-            currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, adjustmentRate * Time.deltaTime);
-
-            if(currentSpeed == targetSpeed)
+            if (isAdjustingSpeed)
             {
-                isAdjustingSpeed=false;
+                currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, adjustmentRate * Time.deltaTime);
+
+                if (currentSpeed == targetSpeed)
+                {
+                    isAdjustingSpeed = false;
+                }
+            }
+            else
+            {
+                currentSpeed += npc.accelerationRate * Time.deltaTime;
+            }
+            transform.position += Vector3.right * currentSpeed * Time.deltaTime;
+            if (currentSpeed < 0)
+            {
+                currentSpeed = 0;
             }
         }
-        else
-        {
-            currentSpeed += npc.accelerationRate * Time.deltaTime;
-        }
-        transform.position += Vector3.right * currentSpeed  * Time.deltaTime;
-        if(currentSpeed < 0)
-        {
-            currentSpeed = 0;
-        }
+       
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
