@@ -13,9 +13,5 @@ MonoBehaviour:
   m_Name: MapData
   m_EditorClassIdentifier: Assembly-CSharp::MapData
   mapPrefabs:
-  - prefab: {fileID: 3059380393110835065, guid: 586742b347bfa2243ab9da77b7021413, type: 3}
+  - prefab: {fileID: 3059380393110835065, guid: 53c1257f01c8ff54ba7ded4124ca08b4, type: 3}
     obstacleImage: {fileID: 6049605792901559095, guid: 84bd0b7921feabc4ab4850c2051df6f4, type: 3}
-  - prefab: {fileID: 3059380393110835065, guid: 9d5ba97d9973c3945ac03cd5c114addf, type: 3}
-    obstacleImage: {fileID: 4769386534542599872, guid: 85c501152116a1641b53820df80ff436, type: 3}
-  - prefab: {fileID: 3059380393110835065, guid: 07a0b917f7c734d4c894a9bc4c6cf935, type: 3}
-    obstacleImage: {fileID: 2368875588930414890, guid: 55075497b8c41704fba3e99ed146a8d7, type: 3}
