@@ -425,12 +425,17 @@ MonoBehaviour:
   allDataChars: []
   selectedCharacterIndex: -1
   selectedCharacterData: {fileID: 0}
+  mapData: {fileID: 11400000, guid: 7cf58ca6e38b0d4449108fdf1ddce7ad, type: 2}
+  mapIndex: 0
   points: 0
   pointText: {fileID: 1269141303}
   winLoseText: {fileID: 0}
   panelWinLose: {fileID: 0}
+  panelTutorial: {fileID: 0}
   isSpecialityMatchingMap: 0
-  winGame: 0
+  gameEnded: 0
+  hasPlayedBefore: 0
+  startPlay: 0
 --- !u!1 &470195433
 GameObject:
   m_ObjectHideFlags: 0

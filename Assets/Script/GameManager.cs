@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
     public int selectedCharacterIndex = -1;
     public DataChar selectedCharacterData;// nyimpen data karakter player yang dimainkan
 
+    public MapData mapData;
+    public int mapIndex;
+
+
     public int points;
     public TextMeshProUGUI pointText;
 
@@ -39,6 +43,7 @@ public class GameManager : MonoBehaviour
         points = PlayerPrefs.GetInt("points", 0);
         hasPlayedBefore = PlayerPrefs.GetInt("HasPlayedBefore", 0) == 1;
         SceneManager.sceneLoaded += OnSceneLoaded;
+        RandomMapIndex();
     }
 
     private void Update()
@@ -79,6 +84,12 @@ public class GameManager : MonoBehaviour
         {
             selectedCharacterData = null;
         }
+    }
+
+    public int RandomMapIndex()
+    {
+        mapIndex = Random.Range(0, mapData.mapPrefabs.Length);
+        return mapIndex;
     }
 
     public string CheckMapType(MapTypes types)
@@ -144,6 +155,7 @@ public class GameManager : MonoBehaviour
 
         if (scene.name == "Select Chara")
         {
+            RandomMapIndex();
             panelTutorial = GameObject.Find("panel tutorial");
             panelTutorial.SetActive(false);
             if (!hasPlayedBefore)
