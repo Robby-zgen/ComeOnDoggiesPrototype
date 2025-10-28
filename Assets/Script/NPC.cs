@@ -4,13 +4,16 @@ public class NPC : MonoBehaviour
 {
     public NPCData npc;
 
-    public float currentSpeed;// kecepatan sekarang
-
+    public float currentSpeed;
     private float speedChangeAmount;
-
     private float targetSpeed;
     private bool isAdjustingSpeed = false;
-    public float adjustmentRate = 2f;
+    private bool onObstacle;
+
+    private float savedSpeedBeforeQTE;
+    
+    private float adjustmentStartTime; 
+    private float speedBeforeAdjustment;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,28 +29,32 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.startPlay)
+        if (!GameManager.instance.startPlay) return;
+        transform.position += Vector3.right * currentSpeed * Time.deltaTime;
+
+        if (!onObstacle)
         {
             if (isAdjustingSpeed)
             {
-                currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, adjustmentRate * Time.deltaTime);
+                float timeElapsed = Time.time - adjustmentStartTime;
+                float t = timeElapsed / npc.randomChangeDuration;
 
-                if (currentSpeed == targetSpeed)
+                currentSpeed = Mathf.Lerp(speedBeforeAdjustment, targetSpeed, t);
+
+                if (t >= 1.0f)
                 {
+                    currentSpeed = targetSpeed;
                     isAdjustingSpeed = false;
                 }
             }
             else
             {
                 currentSpeed += npc.accelerationRate * Time.deltaTime;
-            }
-            transform.position += Vector3.right * currentSpeed * Time.deltaTime;
-            if (currentSpeed < 0)
-            {
-                currentSpeed = 0;
+                targetSpeed = currentSpeed;
             }
         }
-       
+        if (currentSpeed < 0)
+            currentSpeed = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -55,34 +62,70 @@ public class NPC : MonoBehaviour
         if (collision.gameObject.CompareTag("Trigger"))
         {
             float randomSpeedChange;
-            
-            if (Random.value < 0.5f)
+
+            if (Random.value < 0.9f)
             {
                 randomSpeedChange = Random.Range(npc.minRandomIncrease, npc.maxRandomIncrease);
-                
+               //Debug.Log("kecepatan kena trigger: " + currentSpeed);
+               //Debug.Log("tambah kecepatan sebesar: " + randomSpeedChange);
             }
             else
             {
                 randomSpeedChange = Random.Range(npc.minRandomDecrease, npc.maxRandomDecrease);
+                //Debug.Log("kecepatan kena trigger: " + currentSpeed);
+                //Debug.Log("kurangi kecepatan sebesar: " + randomSpeedChange);
             }
 
             targetSpeed = currentSpeed + randomSpeedChange;
+            //Debug.Log("kecepatan akan menjadi " + targetSpeed + " dalam " + npc.randomChangeDuration);
 
-            targetSpeed = Mathf.Clamp(targetSpeed, 0f, npc.baseNormalSpeed * 3f); // 1.5x buffer
+            targetSpeed = Mathf.Clamp(targetSpeed, 0f, npc.maxSpeed); //npc.maxSpeed * 5f);
 
-            // 3. Aktifkan Flag Penyesuaian Linear
+            speedBeforeAdjustment = currentSpeed;
+            adjustmentStartTime = Time.time;
             isAdjustingSpeed = true;
         }
 
         if (collision.gameObject.CompareTag("QTE"))
         {
-            float randomValue = Random.value;
-
-            if (randomValue < npc.qteFailChance)
-            {
-                speedChangeAmount = Random.Range(npc.minQtePenalty, npc.maxQtePenalty);
-                currentSpeed -= speedChangeAmount;
-            }
+            EnterObstacle();
         }
+        if (collision.gameObject.CompareTag("QTE Off"))
+        {
+            ExitObstacle();
+        }
+    }
+
+    public void EnterObstacle()
+    {
+        isAdjustingSpeed = false;
+        onObstacle = true;
+        savedSpeedBeforeQTE = currentSpeed;
+        currentSpeed = npc.speedDuringObstacle;
+    }
+
+    public void ExitObstacle()
+    {
+        float speedAfterObstacle;
+        if (Random.value < npc.qteFailChance)
+        {
+            speedAfterObstacle = Random.Range(npc.minQtePenalty, npc.maxQtePenalty); 
+            savedSpeedBeforeQTE -= speedAfterObstacle;
+            Debug.Log("pengurangan speed setelah QTE: " + speedAfterObstacle);
+        }
+        else
+        {
+            speedAfterObstacle = Random.Range(npc.minQteBoost, npc.maxQteBoost);
+            savedSpeedBeforeQTE += speedAfterObstacle;
+            Debug.Log("penambahana speed setelah QTE: " + speedAfterObstacle);
+        }
+        targetSpeed = savedSpeedBeforeQTE; // Kecepatan yang dituju
+        speedBeforeAdjustment = currentSpeed; // Kecepatan saat ini (speedDuringObstacle)
+        adjustmentStartTime = Time.time;
+        isAdjustingSpeed = true;
+
+        //currentSpeed = savedSpeedBeforeQTE;
+        Debug.Log("speed sekarang jadi: " + currentSpeed  );    
+        onObstacle = false;
     }
 }

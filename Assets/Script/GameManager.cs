@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public GameObject panelTutorial;
 
     public bool isSpecialityMatchingMap;
-    public bool winGame;
+    public bool gameEnded;
     public bool hasPlayedBefore;
     public bool startPlay;
 
@@ -155,12 +155,13 @@ public class GameManager : MonoBehaviour
                 PlayerPrefs.SetInt("HasPlayedBefore", 1);
                 PlayerPrefs.Save();
             }
+            startPlay = false;
         }
 
         if (scene.name == "InGame")
         {
             audio.bgmPlay(audio.IngameBgm);
-            winGame = false;
+            gameEnded = false;
             FindUIElements();
             if (startPlay)
             {
@@ -193,8 +194,8 @@ public class GameManager : MonoBehaviour
 
     public void winLoseCondition(bool finalCondition)
     {
-        if (winGame) return;
-        winGame = true;
+        if (gameEnded) return;
+        gameEnded = true;
         var audio = AudioManager.AudioInstance;
         if (finalCondition)
         {

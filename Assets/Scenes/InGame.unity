@@ -131,7 +131,7 @@ GameObject:
   m_Layer: 0
   m_Name: Spawn Point
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -144,7 +144,7 @@ Transform:
   m_GameObject: {fileID: 10819113}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.29082012, y: 3.75, z: 0}
+  m_LocalPosition: {x: -0.29082012, y: 0.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -162,7 +162,7 @@ GameObject:
   m_Layer: 0
   m_Name: Spawn Point (2)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -175,7 +175,7 @@ Transform:
   m_GameObject: {fileID: 29240346}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.29082012, y: -0.55, z: 0}
+  m_LocalPosition: {x: -0.29082012, y: -2.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -329,7 +329,7 @@ GameObject:
   m_Layer: 0
   m_Name: Spawn Point (1)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -342,7 +342,7 @@ Transform:
   m_GameObject: {fileID: 380282850}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.29082012, y: 1.85, z: 0}
+  m_LocalPosition: {x: -0.29082012, y: -0.59, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -360,7 +360,7 @@ GameObject:
   m_Layer: 0
   m_Name: Spawn Point (3)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -373,7 +373,7 @@ Transform:
   m_GameObject: {fileID: 388602650}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.29082012, y: -3.34, z: 0}
+  m_LocalPosition: {x: -0.29082012, y: -3.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1300,9 +1300,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RandomMap
   mapPrefabs:
   - {fileID: 3059380393110835065, guid: 586742b347bfa2243ab9da77b7021413, type: 3}
-  - {fileID: 3059380393110835065, guid: 9d5ba97d9973c3945ac03cd5c114addf, type: 3}
-  - {fileID: 3059380393110835065, guid: 07a0b917f7c734d4c894a9bc4c6cf935, type: 3}
-  - {fileID: 3059380393110835065, guid: b8a2d72f257edb14daa62eca41834f12, type: 3}
 --- !u!114 &1943918739
 MonoBehaviour:
   m_ObjectHideFlags: 0

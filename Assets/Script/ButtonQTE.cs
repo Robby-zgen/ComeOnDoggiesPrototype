@@ -74,18 +74,17 @@ public class ButtonQTE : MonoBehaviour
         // var audio = AudioManager.AudioInstance;
         if (success)
         {
-            // Kalau sukses tambah kecepatan pemain
-            player.currentSpeed += player.playerData.qteSuccessBoost;
+            // nanti tambahin suara disini
+            player.savedSpeedBeforeQTE += player.playerData.qteSuccessBoost;
             Debug.Log("NICE");
         }
 
         else
         {
-            // Kalau gagal kurangi kecepatan pemain
-            player.currentSpeed -= player.playerData.qteFailurePenalty;
+            // nanti tambahin suara disini
+            player.savedSpeedBeforeQTE -= player.playerData.qteFailurePenalty;
             Debug.Log("MISSED");
         }
-        player.onObstacle = false;
         gameObject.SetActive(false);
         outerCircle.gameObject.SetActive(false);
     }

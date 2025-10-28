@@ -13,13 +13,17 @@ MonoBehaviour:
   m_Name: NPCData
   m_EditorClassIdentifier: Assembly-CSharp::NPCData
   accelerationRate: 0.1
-  baseNormalSpeed: 1
-  minRandomIncrease: 1
-  maxRandomIncrease: 2
-  minRandomDecrease: 1
-  maxRandomDecrease: 2
+  maxSpeed: 6
+  randomChangeDuration: 2
   initialRandomSpeedMin: 1
   initialRandomSpeedMax: 3
+  minRandomIncrease: 1
+  maxRandomIncrease: 2
+  minRandomDecrease: -1
+  maxRandomDecrease: -2
+  speedDuringObstacle: 3
   qteFailChance: 0.4
   minQtePenalty: 1
   maxQtePenalty: 3
+  minQteBoost: 1
+  maxQteBoost: 3
