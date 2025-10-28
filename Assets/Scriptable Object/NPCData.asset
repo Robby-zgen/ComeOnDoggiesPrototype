@@ -18,7 +18,7 @@ MonoBehaviour:
   initialRandomSpeedMin: 1
   initialRandomSpeedMax: 3
   minRandomIncrease: 1
-  maxRandomIncrease: 2
+  maxRandomIncrease: 1
   minRandomDecrease: -1
   maxRandomDecrease: -2
   speedDuringObstacle: 3
