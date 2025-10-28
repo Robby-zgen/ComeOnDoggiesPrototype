@@ -1,92 +1,120 @@
-    using UnityEngine;
-    using TMPro;
-    using System.Collections;
-    using System.Threading;
+using UnityEngine;
+using TMPro;
+using Unity.VisualScripting;
 
 
-    public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
+{
+    public PlayerData playerData;
+
+    [SerializeField] private float currentSpeed;
+    public float savedSpeedBeforeQTE;
+    [SerializeField] private float initialSpeed;
+    private float postObstacleEndTime;
+    private float lastTap;
+
+    private bool firstTap = false;
+    private bool onObstacle = false;
+    private bool postObstacle = false;
+
+    private DataChar dataChar;
+    public QTETrigger trigger;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
     {
-        public PlayerData playerData;
-        public float currentSpeed;
-        private float initialSpeed;
+        dataChar = GameManager.instance.selectedCharacterData;
+        CheckCondition();
 
-        public bool firstTap;
-        public bool onObstacle;
+        currentSpeed = 0f;
+    }
 
-        private DataChar dataChar;
+    // Update is called once per frame
+    void Update()
+    {
+        transform.position += Vector3.right * currentSpeed * Time.deltaTime;
+        if (!GameManager.instance.startPlay) return;
 
-        public QTETrigger trigger;
-        public float lastTap;
-        private float idleTimeThreshold = 0.5f;
-
-
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        if (!onObstacle)// jika lagi tidak di obstacle
         {
-            dataChar = GameManager.instance.selectedCharacterData;
-            CheckCondition();
-
-            currentSpeed = 0f;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            transform.position += Vector3.right * currentSpeed * Time.deltaTime;
-
-            if (GameManager.instance.startPlay)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (!onObstacle)// jika lagi tidak di obstacle
+                lastTap = Time.time;
+                GainBoost();
+            }
+            if (postObstacle)
+            {
+                if(Time.time >= postObstacleEndTime)
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    postObstacle = false;
+                }
+            }
+
+            if (!postObstacle)
+            {
+                if (Time.time > lastTap + playerData.tapTolerance)
+                {
+                    currentSpeed -= playerData.speedDeceleration * Time.deltaTime ;
+                    if (currentSpeed <= 0f)
                     {
-                        lastTap = Time.time;
-                        GainBoost();
-                    }
-                    if (Time.time > lastTap + idleTimeThreshold)
-                    {
-                        if (currentSpeed > 0f)
-                        {
-                            currentSpeed = 0f;
-                        }
+                        currentSpeed = 0f;
                     }
                 }
             }
-            
-        }
-
-        private void GainBoost()
-        {
-            if (!firstTap)
-            {
-                currentSpeed = initialSpeed;
-                firstTap = true;
-            }
-            else
-            {
-                currentSpeed += playerData.tapSpeedGain;
-            }
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.gameObject.CompareTag("QTE"))
-            {
-                onObstacle = true;
-                trigger.TriggerQTE();
-            }
-
-        }
-
-        private void CheckCondition()
-        {
-            if (dataChar.condition == Condition.Happy)
-                initialSpeed = playerData.happySpeed;
-
-            else if (dataChar.condition == Condition.Normal)
-                initialSpeed = playerData.normalSpeed;
-
-            else if (dataChar.condition == Condition.Exhaust)
-                initialSpeed = playerData.exhaustSpeed;
         }
     }
+
+    private void GainBoost()
+    {
+        if (!firstTap)
+        {
+            currentSpeed = initialSpeed;
+            firstTap = true;
+        }
+        else
+        {
+            currentSpeed += playerData.tapSpeedGain;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("QTE"))
+        {
+            EnterObstacle();
+        }
+
+        if (collision.gameObject.CompareTag("QTE Off"))
+        {
+            ExitObstacle();
+        }
+    }
+
+    public void EnterObstacle()
+    {
+        onObstacle = true;
+        savedSpeedBeforeQTE = currentSpeed;
+        currentSpeed = playerData.speedDuringObstacle;
+        trigger.TriggerQTE();
+    }
+
+    public void ExitObstacle()
+    {
+        onObstacle = false;
+        postObstacleEndTime = Time.time + playerData.postObstacleDuration;
+        postObstacle = true;
+        currentSpeed = savedSpeedBeforeQTE;
+    }
+
+    private void CheckCondition()
+    {
+        if (dataChar.condition == Condition.Happy)
+            initialSpeed = playerData.happySpeed;
+
+        else if (dataChar.condition == Condition.Normal)
+            initialSpeed = playerData.normalSpeed;
+
+        else if (dataChar.condition == Condition.Exhaust)
+            initialSpeed = playerData.exhaustSpeed;
+    }
+}
