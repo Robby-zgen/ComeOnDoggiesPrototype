@@ -24,6 +24,6 @@ MonoBehaviour:
   speedDuringObstacle: 3
   qteFailChance: 0.4
   minQtePenalty: 1
-  maxQtePenalty: 1
+  maxQtePenalty: 3
   minQteBoost: 1
-  maxQteBoost: 1
+  maxQteBoost: 3

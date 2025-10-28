@@ -18,8 +18,8 @@ MonoBehaviour:
   tapTolerance: 0.5
   happySpeed: 1.2
   normalSpeed: 1
-  exhaustSpeed: 0.8
-  qteSuccessBoost: 1
-  qteFailurePenalty: 1
+  exhaustSpeed: 0
+  qteSuccessBoost: 2
+  qteFailurePenalty: 2
   postObstacleDuration: 1
   speedDuringObstacle: 3
