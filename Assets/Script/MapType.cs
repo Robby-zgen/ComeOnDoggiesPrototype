@@ -5,7 +5,8 @@ public enum MapTypes
     Water,
     DrumRoll,
     Tire,
-    Log
+    Log,
+    Mud
 }
 
 public class MapType : MonoBehaviour

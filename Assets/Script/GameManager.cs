@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
         points = PlayerPrefs.GetInt("points", 0);
         hasPlayedBefore = PlayerPrefs.GetInt("HasPlayedBefore", 0) == 1;
         SceneManager.sceneLoaded += OnSceneLoaded;
-        RandomMapIndex();
     }
 
     private void Update()
@@ -88,8 +87,15 @@ public class GameManager : MonoBehaviour
 
     public int RandomMapIndex()
     {
-        mapIndex = Random.Range(0, mapData.mapPrefabs.Length);
-        return mapIndex;
+        if (mapData != null && mapData.mapPrefabs != null && mapData.mapPrefabs.Length > 0)
+        {
+            mapIndex = Random.Range(0, mapData.mapPrefabs.Length);
+            return mapIndex;
+        }
+        else
+        {
+            return -1;
+        }
     }
 
     public string CheckMapType(MapTypes types)
@@ -107,7 +113,6 @@ public class GameManager : MonoBehaviour
         if (selectedCharacterData == null)
         {
             isSpecialityMatchingMap = false;
-            Debug.LogError("Error: selectedCharacterData belum diset!");
             return false;
         }
         string charAbilityString = selectedCharacterData.speciality.ToString();
@@ -115,7 +120,6 @@ public class GameManager : MonoBehaviour
         if (string.IsNullOrEmpty(mapTypeString))
         {
             isSpecialityMatchingMap = false;
-            Debug.LogError("Error: mapTypeString belum diset. Pastikan MapType memanggil CheckMapType!");
             return false;
         }
 
@@ -123,8 +127,6 @@ public class GameManager : MonoBehaviour
             isSpecialityMatchingMap = true;
         else
             isSpecialityMatchingMap = false;
-
-        Debug.Log($"[GM Check] Char Speciality: {charAbilityString}, Map Type: {mapTypeString}. Match: {isSpecialityMatchingMap}");
 
         return isSpecialityMatchingMap;
 
@@ -149,7 +151,6 @@ public class GameManager : MonoBehaviour
             if (pointText != null)
             {
                 pointText.text = "Points: " + points.ToString();
-                Debug.Log("[GM] PointText di MainMenu berhasil ditemukan dan diupdate.");
             }
         }
 
@@ -167,19 +168,19 @@ public class GameManager : MonoBehaviour
                 PlayerPrefs.SetInt("HasPlayedBefore", 1);
                 PlayerPrefs.Save();
             }
-            startPlay = false;
+            //startPlay = false;
         }
 
         if (scene.name == "InGame")
         {
             audio.bgmPlay(audio.IngameBgm);
             gameEnded = false;
+            //startPlay= false;
             FindUIElements();
             if (startPlay)
             {
                 Time.timeScale = 1f;
             }
-            
         }   
     }
 
