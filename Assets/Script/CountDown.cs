@@ -4,29 +4,55 @@ using TMPro;
 public class CountDown : MonoBehaviour
 {
     private float currentTime;
-    private float startingTime = 3;
+    private float startingTime = 3.99f;
     public TextMeshProUGUI countdownText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        countdownText.gameObject.SetActive(true);
-        currentTime = startingTime;    
+        
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.startPlay = false; 
+        }
+
+        if (countdownText != null)
+        {
+            countdownText.gameObject.SetActive(true);
+            currentTime = startingTime;
+
+            enabled = true;
+            UpdateCountdownDisplay(); 
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentTime -= 1 * Time.deltaTime;
-        countdownText.text = currentTime.ToString("0");
+        currentTime -= Time.deltaTime;
 
-        if(currentTime <= 1)
-            countdownText.text = currentTime.ToString("GO");
-        if (currentTime <=0)
+        UpdateCountdownDisplay();
+    }
+
+    void UpdateCountdownDisplay()
+    {
+        if (currentTime > 1f)
         {
-            GameManager.instance.startPlay = true;
+            countdownText.text = Mathf.CeilToInt(currentTime - 1f).ToString();
+        }
+        else if (currentTime > 0f)
+        {
+            countdownText.text = "GO";
+        }
+        else
+        {
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.startPlay = true;
+            }
             currentTime = 0;
             countdownText.gameObject.SetActive(false);
+            enabled = false;
         }
     }
 
