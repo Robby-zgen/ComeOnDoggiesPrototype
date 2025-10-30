@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
 
     public int points;
+    public int pointWin;
+    public int pointLose;
     public TextMeshProUGUI pointText;
 
     public TextMeshProUGUI winLoseText;
@@ -49,7 +51,7 @@ public class GameManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            AddPoints(100);
+            AddPoints(pointWin);
         }
 
         if (Input.GetKeyDown(KeyCode.Backspace))
@@ -214,7 +216,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0f;
             winLoseText.text = "You Win";
-            AddPoints(100);
+            AddPoints(pointWin);
             panelWinLose.SetActive(true);
             audio.sfxPlay(audio.winSfx);
         }
@@ -222,7 +224,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0f;
             winLoseText.text = "You Lose";
-            AddPoints(50);
+            AddPoints(pointLose);
             panelWinLose.SetActive(true);
         }
         audio.bgmSource.Stop();

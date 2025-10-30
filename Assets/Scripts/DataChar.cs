@@ -9,9 +9,10 @@ public enum Condition
 public enum Speciality
 {
     Water,
-    DrumRoll,
-    Tire,
-    Log
+    Mud,
+    Bridge,
+    Bump,
+    Rock
 }
 
 [CreateAssetMenu (fileName ="CharacterData", menuName = "Scriptable Object/CharacterData")]

@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         transform.position += Vector3.right * currentSpeed * Time.deltaTime;
         if (!GameManager.instance.startPlay) return;
 
+        currentSpeed = Mathf.Clamp(currentSpeed, 0f, playerData.maxSpeed);
         if (!onObstacle)// jika lagi tidak di obstacle
         {
             if (Input.GetMouseButtonDown(0))
@@ -62,6 +63,8 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+        
+
     }
 
     private void GainBoost()

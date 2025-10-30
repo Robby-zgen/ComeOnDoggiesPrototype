@@ -3,10 +3,11 @@ using UnityEngine;
 public enum MapTypes
 {
     Water,
-    DrumRoll,
-    Tire,
-    Log,
-    Mud
+    Mud,
+    Bridge,
+    Bump,
+    Rock
+
 }
 
 public class MapType : MonoBehaviour
