@@ -19,7 +19,7 @@ MonoBehaviour:
   happySpeed: 1.2
   normalSpeed: 1
   exhaustSpeed: 0
-  qteSuccessBoost: 2
-  qteFailurePenalty: 2
+  qteSuccessBoost: 0.5
+  qteFailurePenalty: 1
   postObstacleDuration: 1
   speedDuringObstacle: 3
