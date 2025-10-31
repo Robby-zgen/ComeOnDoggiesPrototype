@@ -18,11 +18,11 @@ MonoBehaviour:
   initialRandomSpeedMin: 1
   initialRandomSpeedMax: 3
   minRandomIncrease: 1
-  maxRandomIncrease: 1.5
-  minRandomDecrease: 0.2
-  maxRandomDecrease: 0
+  maxRandomIncrease: 2
+  minRandomDecrease: 0.5
+  maxRandomDecrease: 0.5
   speedDuringObstacle: 3
-  qteFailChance: 0
+  qteFailChance: 0.7
   minQtePenalty: 2
   maxQtePenalty: 2
   minQteBoost: 1
