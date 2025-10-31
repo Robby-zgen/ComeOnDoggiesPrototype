@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941e059a07c639e4c955edeeded6f020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapType
-  type: 0
+  type: 2
 --- !u!1 &3514817832123515106
 GameObject:
   m_ObjectHideFlags: 0

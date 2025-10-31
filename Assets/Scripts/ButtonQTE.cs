@@ -75,14 +75,15 @@ public class ButtonQTE : MonoBehaviour
         if (success)
         {
             // nanti tambahin suara disini
-            player.savedSpeedBeforeQTE += player.playerData.qteSuccessBoost;
+            player.speedAfterQte = player.playerData.qteSuccessBoost;
             Debug.Log("NICE");
         }
 
         else
         {
+
             // nanti tambahin suara disini
-            player.savedSpeedBeforeQTE -= player.playerData.qteFailurePenalty;
+            player.speedAfterQte = player.playerData.qteFailurePenalty;
             Debug.Log("MISSED");
         }
         gameObject.SetActive(false);

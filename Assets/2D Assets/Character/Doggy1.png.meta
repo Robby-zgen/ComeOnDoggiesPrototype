@@ -1,10 +1,28 @@
 fileFormatVersion: 2
-guid: 85c501152116a1641b53820df80ff436
+guid: 04efb43787266f54c9ce6dc57894949d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4769386534542599872
-    second: tire_0
+      213: 202893059542043122
+    second: Doggy1_0
+  - first:
+      213: -7081568008356590483
+    second: Doggy1_1
+  - first:
+      213: 2563294631651309171
+    second: Doggy1_2
+  - first:
+      213: -8154432901621212295
+    second: Doggy1_3
+  - first:
+      213: 7610484369544195415
+    second: Doggy1_4
+  - first:
+      213: 6573370698409731387
+    second: Doggy1_5
+  - first:
+      213: 3709363329050163742
+    second: Doggy1_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +157,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tire_0
+      name: Doggy1_0
       rect:
         serializedVersion: 2
-        x: 40
-        y: 15
-        width: 120
-        height: 170
+        x: 152
+        y: 133
+        width: 375
+        height: 362
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +172,140 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0c661fba8c3403240800000000000000
-      internalID: 4769386534542599872
+      spriteID: 2f94565a922d0d200800000000000000
+      internalID: 202893059542043122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Doggy1_1
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 134
+        width: 414
+        height: 363
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6c82298a6739bd90800000000000000
+      internalID: -7081568008356590483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Doggy1_2
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 149
+        width: 480
+        height: 357
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 376fd36f2e6a29320800000000000000
+      internalID: 2563294631651309171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Doggy1_3
+      rect:
+        serializedVersion: 2
+        x: 1683
+        y: 143
+        width: 432
+        height: 357
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97b1c12ea72a5de80800000000000000
+      internalID: -8154432901621212295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Doggy1_4
+      rect:
+        serializedVersion: 2
+        x: 2243
+        y: 139
+        width: 371
+        height: 362
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75d2857463fdd9960800000000000000
+      internalID: 7610484369544195415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Doggy1_5
+      rect:
+        serializedVersion: 2
+        x: 2695
+        y: 139
+        width: 403
+        height: 352
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b356cafa2dd493b50800000000000000
+      internalID: 6573370698409731387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Doggy1_6
+      rect:
+        serializedVersion: 2
+        x: 3177
+        y: 161
+        width: 401
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1a35e27b4e4a7330800000000000000
+      internalID: 3709363329050163742
       vertices: []
       indices: 
       edges: []
@@ -174,7 +324,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      tire_0: 4769386534542599872
+      Doggy1_0: 202893059542043122
+      Doggy1_1: -7081568008356590483
+      Doggy1_2: 2563294631651309171
+      Doggy1_3: -8154432901621212295
+      Doggy1_4: 7610484369544195415
+      Doggy1_5: 6573370698409731387
+      Doggy1_6: 3709363329050163742
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

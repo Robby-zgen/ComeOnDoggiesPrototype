@@ -7,9 +7,11 @@ public class PlayerMovement : MonoBehaviour
 {
     public PlayerData playerData;
 
-    [SerializeField] private float currentSpeed;
-    public float savedSpeedBeforeQTE;
+    public float currentSpeed;
+    public float speedAfterQte;
     [SerializeField] private float initialSpeed;
+    [SerializeField] private Animator animator;
+
     private float postObstacleEndTime;
     private float lastTap;
 
@@ -62,6 +64,15 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
             }
+
+            if (currentSpeed > 0f)
+            {
+                animator.SetBool("isRun", true);
+            }
+            else
+            {
+                animator.SetBool("isRun", false);
+            }
         }
         
 
@@ -96,7 +107,6 @@ public class PlayerMovement : MonoBehaviour
     public void EnterObstacle()
     {
         onObstacle = true;
-        savedSpeedBeforeQTE = currentSpeed;
         currentSpeed = playerData.speedDuringObstacle;
         trigger.TriggerQTE();
     }
@@ -106,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
         onObstacle = false;
         postObstacleEndTime = Time.time + playerData.postObstacleDuration;
         postObstacle = true;
-        currentSpeed = savedSpeedBeforeQTE;
+        currentSpeed = playerData.speedDuringObstacle + speedAfterQte;
     }
 
     private void CheckCondition()
