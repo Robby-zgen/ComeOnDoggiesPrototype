@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d7ba77cd075d041b89dac731efc429, type: 3}
   m_Name: NPCData
   m_EditorClassIdentifier: Assembly-CSharp::NPCData
-  accelerationRate: 0.2
+  accelerationRate: 0.1
   maxSpeed: 100
   randomChangeDuration: 2
   initialRandomSpeedMin: 1
   initialRandomSpeedMax: 3
   minRandomIncrease: 1
   maxRandomIncrease: 1.5
-  minRandomDecrease: -0.5
-  maxRandomDecrease: -1
+  minRandomDecrease: 0.2
+  maxRandomDecrease: 0
   speedDuringObstacle: 3
-  qteFailChance: 0.4
-  minQtePenalty: 1
-  maxQtePenalty: 1
+  qteFailChance: 0
+  minQtePenalty: 2
+  maxQtePenalty: 2
   minQteBoost: 1
   maxQteBoost: 1
