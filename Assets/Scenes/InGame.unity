@@ -1053,7 +1053,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58e0538664fbde5468f1597f2646af9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpawner
-  characterBasePrefab: {fileID: 2511749123436144067, guid: 845fd2d6a3e34704db748260cc865555, type: 3}
+  characterPrefab:
+  - {fileID: 1419837013733086889, guid: 3734940e6ea90334a958dc665f4eebe7, type: 3}
+  - {fileID: 1419837013733086889, guid: 3734940e6ea90334a958dc665f4eebe7, type: 3}
+  - {fileID: 1419837013733086889, guid: 3734940e6ea90334a958dc665f4eebe7, type: 3}
+  - {fileID: 1419837013733086889, guid: 3734940e6ea90334a958dc665f4eebe7, type: 3}
   spawnPoints:
   - {fileID: 10819114}
   - {fileID: 380282851}

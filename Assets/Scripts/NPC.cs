@@ -5,6 +5,7 @@ public class NPC : MonoBehaviour
     public NPCData npc;
 
     public float currentSpeed;
+    private Animator animator;
     private float speedChangeAmount;
     private float targetSpeed;
     private bool isAdjustingSpeed = false;
@@ -18,6 +19,7 @@ public class NPC : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        animator = GetComponent<Animator>();
         //buat kecepatan random diawal
         speedChangeAmount = Random.Range(npc.initialRandomSpeedMin, npc.initialRandomSpeedMax);
         currentSpeed += speedChangeAmount;
@@ -53,8 +55,16 @@ public class NPC : MonoBehaviour
                 targetSpeed = currentSpeed;
             }
         }
-        if (currentSpeed < 0)
+        if (currentSpeed <= 0)
+        {
+            animator.SetBool("isRun", false);
             currentSpeed = 0;
+        }
+        else
+        {
+            animator.SetBool("isRun", true);
+        }
+            
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

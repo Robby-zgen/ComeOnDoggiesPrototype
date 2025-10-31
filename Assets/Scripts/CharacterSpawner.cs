@@ -1,12 +1,13 @@
 using UnityEngine;
+using System;
 
 public class CharacterSpawner : MonoBehaviour
 {
-    public GameObject characterBasePrefab;// nyimpen karakter base gameobject dalam prefab
+    public GameObject[] characterPrefab;
     public Transform[] spawnPoints;
 
-    private string PlayerScript = "PlayerMovement";
-    private string NPCScript = "NPC";
+    private Type PlayerScriptType = typeof(PlayerMovement);
+    private Type NPCScriptType = typeof(NPC);
 
     private Transform mainCameraTransform;
 
@@ -19,7 +20,7 @@ public class CharacterSpawner : MonoBehaviour
 
     private void SpawnAllCharacters()
     {
-        if (GameManager.instance == null || characterBasePrefab == null)
+        if (GameManager.instance == null)
         {
             return;
         }
@@ -33,38 +34,39 @@ public class CharacterSpawner : MonoBehaviour
             Debug.LogError("[CS] Setup Error: Data karakter tidak dimuat dari GameManager. (Array data kosong).");
             return;
         }
-        
-        int spawnCount = Mathf.Min(allData.Length, spawnPoints.Length);
 
-        if (spawnCount < allData.Length)
+        int spawnCount = Mathf.Min(allData.Length, spawnPoints.Length, characterPrefab.Length);
+
+        if (characterPrefab.Length < allData.Length)
         {
             Debug.LogWarning($"[CS] Peringatan: Hanya {spawnCount} karakter yang di-spawn karena Spawn Points tidak cukup.");
+        }
+        if (spawnCount < allData.Length)
+        {
+            Debug.LogWarning($"[CS] Peringatan: Hanya {spawnCount} karakter yang di-spawn.");
         }
 
         for (int i = 0; i < spawnCount; i++)
         {
             DataChar charData = allData[i];
+            GameObject prefabToSpawn = characterPrefab[i];
 
             GameObject charInstance = Instantiate(
-                characterBasePrefab,
+                prefabToSpawn,
                 spawnPoints[i].position,
                 Quaternion.identity
             );
 
-            Vector3 targetScale = new Vector3(0.2f, 0.2f, 0.2f);// sesuaikan ukuran sprite karakter
+            Vector3 targetScale = new Vector3(0.35f, 0.35f, 0.35f);// sesuaikan ukuran sprite karakter
             charInstance.transform.localScale = targetScale;
-
-            ApplyVisuals(charInstance, charData);
 
             if (i == selectedIndex)
             {
                 //player
-                SetMovementScriptState(charInstance, PlayerScript, true);
-                MonoBehaviour npcComponent = charInstance.GetComponent(NPCScript) as MonoBehaviour;
-                if (npcComponent != null)
-                {
-                    Destroy(npcComponent);
-                }
+                Destroy(charInstance.GetComponent(NPCScriptType));
+                MonoBehaviour playerComponent = charInstance.GetComponent(PlayerScriptType) as MonoBehaviour;
+                if (playerComponent != null) playerComponent.enabled = true;
+
                 charInstance.name = $"Player {charData.characterName}";
                 charInstance.tag = "Player";
 
@@ -76,33 +78,13 @@ public class CharacterSpawner : MonoBehaviour
             else
             {
                 //npc
-                MonoBehaviour PlayerComponent = charInstance.GetComponent(PlayerScript) as MonoBehaviour;
-                if (PlayerComponent != null)
-                {
-                    Destroy(PlayerComponent);
-                }
-                SetMovementScriptState(charInstance, NPCScript, true);
+                Destroy(charInstance.GetComponent(PlayerScriptType));
+                MonoBehaviour npcComponent = charInstance.GetComponent(NPCScriptType) as MonoBehaviour;
+                if (npcComponent != null) npcComponent.enabled = true;
+
                 charInstance.name = $"NPC {charData.characterName}";
                 charInstance.tag = "Npc";
             }
-        }
-    }
-
-    private void ApplyVisuals(GameObject character, DataChar data)
-    {
-        SpriteRenderer sr = character.GetComponent<SpriteRenderer>();
-        if (sr != null)
-        {
-            sr.sprite = data.characterImage;
-        }
-    }
-
-    private void SetMovementScriptState(GameObject target, string scriptName, bool isEnabled)
-    {
-        MonoBehaviour script = target.GetComponent(scriptName) as MonoBehaviour;
-        if (script != null)
-        {
-            script.enabled = isEnabled;
         }
     }
 
