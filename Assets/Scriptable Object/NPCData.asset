@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NPCData
   m_EditorClassIdentifier: Assembly-CSharp::NPCData
   accelerationRate: 0.2
-  maxSpeed: 6
+  maxSpeed: 100
   randomChangeDuration: 2
   initialRandomSpeedMin: 1
   initialRandomSpeedMax: 3

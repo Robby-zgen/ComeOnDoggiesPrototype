@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   tapSpeedGain: 0.1
   speedDeceleration: 3
-  maxSpeed: 0
+  maxSpeed: 100
   tapTolerance: 0.5
   happySpeed: 1.2
   normalSpeed: 1
