@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Reyna
   m_EditorClassIdentifier: Assembly-CSharp::DataChar
   characterName: Reyna
-  characterImage: {fileID: 21300000, guid: dca1a8a2781f4b041bba3189e6285c46, type: 3}
+  characterImage: {fileID: 202893059542043122, guid: 04efb43787266f54c9ce6dc57894949d, type: 3}
   conditionImage:
   - {fileID: 7985626363670038235, guid: cee80a080a7b5de45888f1928cac65ce, type: 3}
   - {fileID: 9095853184155359625, guid: bf051b218565c1742a1b24cb91954603, type: 3}
   - {fileID: -671662205156867677, guid: 172d08f1021040d4aaef0c78444da198, type: 3}
   specialityImage: {fileID: -8805542416983878997, guid: cf831384231e25946b546052895aeeb6, type: 3}
   speciality: 2
-  condition: 1
+  condition: 2
